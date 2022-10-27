@@ -8,13 +8,18 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import Action
 
 final class ChildsView: UIView {
     private enum Placeholders {
         static let clear = "Очистить"
         static let title = "Дети (макс.5)"
         static let add = "Добавить ребенка"
+
+        static let cornerRadius: CGFloat = 20
     }
+
+    weak var delegate: UIViewController?
 
     private let disposeBag = DisposeBag()
     private let viewModel = MainViewModel()
@@ -25,6 +30,7 @@ final class ChildsView: UIView {
         button.setTitle(Placeholders.clear,
                         for: .normal)
         button.tintColor = .systemRed
+        button.layer.cornerRadius = Placeholders.cornerRadius
         button.layer.borderWidth = 1.0
         button.layer.borderColor = UIColor.systemRed.cgColor
         return button
@@ -36,8 +42,10 @@ final class ChildsView: UIView {
         return label
     }()
     private lazy var addButton: UIButton = {
-        let button = UIButton(type: .contactAdd)
+        let button = UIButton(type: .system)
         button.setTitle(Placeholders.add,
+                        for: .normal)
+        button.setImage(UIImage(systemName: "plus"),
                         for: .normal)
         button.tintColor = .systemBlue
         button.layer.cornerRadius = 10
@@ -48,7 +56,8 @@ final class ChildsView: UIView {
 
     private lazy var childsStack = UIStackView(arrangedSubviews: [childsLabel, addButton],
                                                axis: .horizontal,
-                                               spacing: 10)
+                                               spacing: 10,
+                                               distribution: .fillProportionally)
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -73,8 +82,17 @@ final class ChildsView: UIView {
                     withIdentifier: ChildCell.reuseId,
                     for: IndexPath(item: item, section: 0)
                 ) as? ChildCell else { return UITableViewCell() }
+
                 cell.contentView.isUserInteractionEnabled = false
+                cell.delegate = self
+                cell.indexPath = IndexPath(item: item, section: 0)
+
                 cell.configure(with: element)
+
+                cell.deleteButton.rx.action = CocoaAction { _ in
+                    self.viewModel.deleteChild(at: element)
+                    return .empty()
+                }
 
                 return cell
             }.disposed(by: disposeBag)
@@ -83,6 +101,7 @@ final class ChildsView: UIView {
     private func setupView() {
         tableView.backgroundColor = .mainBackground()
         tableView.allowsSelection = false
+        tableView.separatorInset = UIEdgeInsets.zero
         setupTableView()
         bind()
     }
@@ -94,13 +113,17 @@ final class ChildsView: UIView {
         addButton.rx.tap.subscribe { [weak self] _ in
             guard let self else { return }
             let oldValue = self.viewModel.childs.value
-            self.viewModel.childs.accept(oldValue + [Child(name: "", age: "")])
+            self.viewModel.childs.accept(oldValue + [.emptyChild])
         }
         .disposed(by: disposeBag)
 
         clearButton.rx.tap.subscribe { [weak self] _ in
             guard let self else { return }
-            self.viewModel.childs.accept([])
+            ActionSheet.showActionsheet(viewController: self.delegate ?? UIViewController(),
+                                        title: "Удалить данные?",
+                                        message: "Вы уверены?") { _ in
+                self.viewModel.childs.accept([])
+            }
         }
         .disposed(by: disposeBag)
 
@@ -119,6 +142,10 @@ final class ChildsView: UIView {
 
     private func setConstraints() {
         let topInset: CGFloat = 20
+        let clearButtonheight: CGFloat = 50
+        let tableBottomInset: CGFloat = -10
+        let addButtonHeight: CGFloat = 30
+
         addSubview(tableView)
         addSubview(clearButton)
         addSubview(childsStack)
@@ -126,6 +153,8 @@ final class ChildsView: UIView {
         subviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
 
         NSLayoutConstraint.activate([
+            addButton.heightAnchor.constraint(equalToConstant: addButtonHeight),
+
             childsStack.topAnchor.constraint(equalTo: topAnchor,
                                             constant: topInset),
             childsStack.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -134,14 +163,14 @@ final class ChildsView: UIView {
             clearButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
             clearButton.leadingAnchor.constraint(equalTo: leadingAnchor),
             clearButton.trailingAnchor.constraint(equalTo: trailingAnchor),
-            clearButton.heightAnchor.constraint(equalToConstant: 50),
+            clearButton.heightAnchor.constraint(equalToConstant: clearButtonheight),
 
             tableView.topAnchor.constraint(equalTo: childsStack.bottomAnchor,
                                           constant: topInset),
             tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: clearButton.topAnchor,
-                                             constant: -10)
+                                             constant: tableBottomInset)
         ])
     }
 }
@@ -149,5 +178,13 @@ final class ChildsView: UIView {
 extension ChildsView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 120
+    }
+}
+
+extension ChildsView: DelegateTextChange {
+    func changeText(newValue: String, indexPath: IndexPath, type: TextFieldType) {
+        viewModel.changeValues(newValue: newValue,
+                               indexPath: indexPath,
+                               type: type)
     }
 }
