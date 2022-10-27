@@ -15,8 +15,11 @@ final class ActionSheet {
         let alertViewController = UIAlertController(title: title,
                                                     message: message,
                                                     preferredStyle: .actionSheet)
-        let actionOk = UIAlertAction(title: "Удалить", style: .destructive, handler: completion)
-        let actionCancel = UIAlertAction(title: "Отмена", style: .cancel)
+        let actionOk = UIAlertAction(title: "Сбросить данные",
+                                     style: .destructive,
+                                     handler: completion)
+        let actionCancel = UIAlertAction(title: "Отмена",
+                                         style: .cancel)
 
         alertViewController.addAction(actionOk)
         alertViewController.addAction(actionCancel)
