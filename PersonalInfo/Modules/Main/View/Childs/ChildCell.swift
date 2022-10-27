@@ -6,27 +6,50 @@
 //
 
 import UIKit
+import RxCocoa
+import RxSwift
+
+protocol DelegateTextChange: AnyObject {
+    func changeText(newValue: String, indexPath: IndexPath, type: TextFieldType)
+}
 
 final class ChildCell: UITableViewCell {
     private enum Placeholders {
         static let delete = "Удалить"
         static let name = "Имя"
         static let age = "Возраст"
+
+        static let cornerRadius: CGFloat = 10
+        static let borderWidth: CGFloat = 1
+        static let borderColor: CGColor = UIColor.lightGray.cgColor
+        static let leftRightInset: CGFloat = 10
     }
 
     static let reuseId = "ChildCell"
+    private let disposeBag = DisposeBag()
 
     private lazy var nameTf: UITextField = {
         let tf = UITextField()
         tf.placeholder = Placeholders.name
-        tf.borderStyle = .line
+        tf.layer.cornerRadius = Placeholders.cornerRadius
+        tf.layer.borderWidth = Placeholders.borderWidth
+        tf.layer.borderColor = Placeholders.borderColor
+        tf.setRightPaddingPoints(Placeholders.leftRightInset)
+        tf.setLeftPaddingPoints(Placeholders.leftRightInset)
+        tf.autocorrectionType = .no
         return tf
     }()
 
     private lazy var ageTf: UITextField = {
         let tf = UITextField()
         tf.placeholder = Placeholders.age
-        tf.borderStyle = .line
+        tf.layer.cornerRadius = Placeholders.cornerRadius
+        tf.layer.borderWidth = Placeholders.borderWidth
+        tf.layer.borderColor = Placeholders.borderColor
+        tf.setRightPaddingPoints(Placeholders.leftRightInset)
+        tf.setLeftPaddingPoints(Placeholders.leftRightInset)
+        tf.autocorrectionType = .no
+        tf.keyboardType = .numberPad
         return tf
     }()
 
@@ -38,13 +61,17 @@ final class ChildCell: UITableViewCell {
 
     private lazy var stackView = UIStackView(arrangedSubviews: [nameTf, ageTf],
                                              axis: .vertical,
-                                             spacing: 10)
-    
+                                             spacing: 10,
+                                             distribution: .fillEqually)
+
+    weak var delegate: DelegateTextChange?
+    var indexPath: IndexPath?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = .mainBackground()
         setConstraints()
+        bind()
     }
 
     required init?(coder: NSCoder) {
@@ -54,6 +81,34 @@ final class ChildCell: UITableViewCell {
     func configure(with model: Child) {
         nameTf.text = model.name
         ageTf.text = model.age ?? ""
+    }
+
+    private func bind() {
+        nameTf.rx.text
+            .orEmpty
+            .debounce(.seconds(1), scheduler: MainScheduler.instance)
+            .subscribe { [weak self] text in
+                guard let self else { return }
+                guard let indexPath = self.indexPath else { return }
+
+                if text != "" {
+                    self.delegate?.changeText(newValue: text, indexPath: indexPath, type: .name)
+                }
+            }
+            .disposed(by: disposeBag)
+
+        ageTf.rx.text
+            .orEmpty
+            .debounce(.seconds(1), scheduler: MainScheduler.instance)
+            .subscribe { [weak self] text in
+                guard let self else { return }
+                guard let indexPath = self.indexPath else { return }
+
+                if text != "" {
+                    self.delegate?.changeText(newValue: text, indexPath: indexPath, type: .age)
+                }
+            }
+            .disposed(by: disposeBag)
     }
 
     private func setConstraints() {
@@ -66,15 +121,14 @@ final class ChildCell: UITableViewCell {
         stackView.subviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
 
         NSLayoutConstraint.activate([
-            nameTf.heightAnchor.constraint(equalToConstant: height),
-            ageTf.heightAnchor.constraint(equalTo: nameTf.heightAnchor),
-            
-            stackView.topAnchor.constraint(equalTo: topAnchor),
+            stackView.topAnchor.constraint(equalTo: topAnchor,
+                                          constant: leadingButton),
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor,
                                                 constant: -frame.width / 2),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -leadingButton),
 
-            deleteButton.topAnchor.constraint(equalTo: topAnchor),
+            deleteButton.topAnchor.constraint(equalTo: stackView.topAnchor),
             deleteButton.leadingAnchor.constraint(equalTo: stackView.trailingAnchor,
                                                  constant: leadingButton),
             deleteButton.heightAnchor.constraint(equalToConstant: height),
