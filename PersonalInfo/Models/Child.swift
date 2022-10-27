@@ -8,6 +8,13 @@
 import Foundation
 
 struct Child {
-    let name: String
-    let age: String?
+    let id: UUID = UUID()
+    var name: String
+    var age: String?
+}
+
+extension Child {
+    static var emptyChild: Child {
+        return Child(name: "", age: "")
+    }
 }
