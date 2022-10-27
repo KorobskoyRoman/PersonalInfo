@@ -12,6 +12,11 @@ final class PersonalView: UIView {
         static let title = "Персональные данные"
         static let name = "Имя"
         static let age = "Возраст"
+
+        static let cornerRadius: CGFloat = 10
+        static let borderWidth: CGFloat = 1
+        static let borderColor: CGColor = UIColor.lightGray.cgColor
+        static let leftRightInset: CGFloat = 10
     }
 
     private lazy var titleLabel: UILabel = {
@@ -25,14 +30,22 @@ final class PersonalView: UIView {
     private lazy var nameTf: UITextField = {
         let tf = UITextField()
         tf.placeholder = Placeholders.name
-        tf.borderStyle = .line
+        tf.layer.cornerRadius = Placeholders.cornerRadius
+        tf.layer.borderWidth = Placeholders.borderWidth
+        tf.layer.borderColor = Placeholders.borderColor
+        tf.setRightPaddingPoints(Placeholders.leftRightInset)
+        tf.setLeftPaddingPoints(Placeholders.leftRightInset)
         return tf
     }()
 
     private lazy var ageTf: UITextField = {
         let tf = UITextField()
         tf.placeholder = Placeholders.age
-        tf.borderStyle = .line
+        tf.layer.cornerRadius = Placeholders.cornerRadius
+        tf.layer.borderWidth = Placeholders.borderWidth
+        tf.layer.borderColor = Placeholders.borderColor
+        tf.setRightPaddingPoints(Placeholders.leftRightInset)
+        tf.setLeftPaddingPoints(Placeholders.leftRightInset)
         return tf
     }()
 
