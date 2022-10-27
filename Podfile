@@ -8,4 +8,5 @@ target 'PersonalInfo' do
   # Pods for PersonalInfo
   pod 'RxSwift'
   pod 'RxCocoa'
+  pod 'Action'
 end
