@@ -20,6 +20,7 @@
 		9C84F67B2906F145006B7760 /* Child.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C84F67A2906F145006B7760 /* Child.swift */; };
 		9CF2B5492909912000D7FE2F /* ChildCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF2B5482909912000D7FE2F /* ChildCell.swift */; };
 		9CF2B54B29099B7D00D7FE2F /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF2B54A29099B7C00D7FE2F /* UIFont+.swift */; };
+		9CF2B54D290AD71200D7FE2F /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF2B54C290AD71200D7FE2F /* UITextField.swift */; };
 		C8295F0A71D174131FBCC456 /* Pods_PersonalInfo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50E31C876498CB939312C4FC /* Pods_PersonalInfo.framework */; };
 /* End PBXBuildFile section */
 
@@ -42,6 +43,7 @@
 		9C84F67A2906F145006B7760 /* Child.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Child.swift; sourceTree = "<group>"; };
 		9CF2B5482909912000D7FE2F /* ChildCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildCell.swift; sourceTree = "<group>"; };
 		9CF2B54A29099B7C00D7FE2F /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
+		9CF2B54C290AD71200D7FE2F /* UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +140,7 @@
 				9C84F6732906E057006B7760 /* UIStackView+.swift */,
 				9C84F6752906E542006B7760 /* UIColor+.swift */,
 				9CF2B54A29099B7C00D7FE2F /* UIFont+.swift */,
+				9CF2B54C290AD71200D7FE2F /* UITextField.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -301,6 +304,7 @@
 				9C84F66F2906DC29006B7760 /* MainViewModel.swift in Sources */,
 				9C84F6762906E542006B7760 /* UIColor+.swift in Sources */,
 				9C84F67B2906F145006B7760 /* Child.swift in Sources */,
+				9CF2B54D290AD71200D7FE2F /* UITextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
