@@ -18,9 +18,11 @@
 		9C84F6762906E542006B7760 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C84F6752906E542006B7760 /* UIColor+.swift */; };
 		9C84F6782906EDF1006B7760 /* ChildsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C84F6772906EDF1006B7760 /* ChildsView.swift */; };
 		9C84F67B2906F145006B7760 /* Child.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C84F67A2906F145006B7760 /* Child.swift */; };
+		9CB2FE89290B15AF00C32A66 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB2FE88290B15AF00C32A66 /* Constants.swift */; };
 		9CF2B5492909912000D7FE2F /* ChildCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF2B5482909912000D7FE2F /* ChildCell.swift */; };
 		9CF2B54B29099B7D00D7FE2F /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF2B54A29099B7C00D7FE2F /* UIFont+.swift */; };
 		9CF2B54D290AD71200D7FE2F /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF2B54C290AD71200D7FE2F /* UITextField.swift */; };
+		9CF2B54F290ADF3300D7FE2F /* ActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF2B54E290ADF3300D7FE2F /* ActionSheet.swift */; };
 		C8295F0A71D174131FBCC456 /* Pods_PersonalInfo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50E31C876498CB939312C4FC /* Pods_PersonalInfo.framework */; };
 /* End PBXBuildFile section */
 
@@ -41,9 +43,11 @@
 		9C84F6752906E542006B7760 /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 		9C84F6772906EDF1006B7760 /* ChildsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildsView.swift; sourceTree = "<group>"; };
 		9C84F67A2906F145006B7760 /* Child.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Child.swift; sourceTree = "<group>"; };
+		9CB2FE88290B15AF00C32A66 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		9CF2B5482909912000D7FE2F /* ChildCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildCell.swift; sourceTree = "<group>"; };
 		9CF2B54A29099B7C00D7FE2F /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
 		9CF2B54C290AD71200D7FE2F /* UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
+		9CF2B54E290ADF3300D7FE2F /* ActionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				9C6F7C882906D89D001CC8A9 /* Assets.xcassets */,
+				9CB2FE88290B15AF00C32A66 /* Constants.swift */,
 				9C6F7C8A2906D89D001CC8A9 /* LaunchScreen.storyboard */,
 			);
 			path = "Support files";
@@ -128,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				9C84F6702906DF8A006B7760 /* PersonalView.swift */,
+				9CF2B550290AFD9F00D7FE2F /* Alert */,
 				9CF2B5472909911100D7FE2F /* Childs */,
 				9C6F7C832906D89B001CC8A9 /* MainViewController.swift */,
 			);
@@ -160,6 +166,14 @@
 				9C84F6772906EDF1006B7760 /* ChildsView.swift */,
 			);
 			path = Childs;
+			sourceTree = "<group>";
+		};
+		9CF2B550290AFD9F00D7FE2F /* Alert */ = {
+			isa = PBXGroup;
+			children = (
+				9CF2B54E290ADF3300D7FE2F /* ActionSheet.swift */,
+			);
+			path = Alert;
 			sourceTree = "<group>";
 		};
 		AE28A9C446C6EAAD5E59A517 /* Frameworks */ = {
@@ -293,6 +307,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9CF2B54F290ADF3300D7FE2F /* ActionSheet.swift in Sources */,
 				9CF2B54B29099B7D00D7FE2F /* UIFont+.swift in Sources */,
 				9C6F7C842906D89B001CC8A9 /* MainViewController.swift in Sources */,
 				9C84F6742906E057006B7760 /* UIStackView+.swift in Sources */,
@@ -303,6 +318,7 @@
 				9C84F6782906EDF1006B7760 /* ChildsView.swift in Sources */,
 				9C84F66F2906DC29006B7760 /* MainViewModel.swift in Sources */,
 				9C84F6762906E542006B7760 /* UIColor+.swift in Sources */,
+				9CB2FE89290B15AF00C32A66 /* Constants.swift in Sources */,
 				9C84F67B2906F145006B7760 /* Child.swift in Sources */,
 				9CF2B54D290AD71200D7FE2F /* UITextField.swift in Sources */,
 			);
